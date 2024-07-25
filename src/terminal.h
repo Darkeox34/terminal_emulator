@@ -70,7 +70,7 @@ void Terminal::clear(){
 void Terminal::waitingForCommand(){
     printHostname();
     std::string cmd = "";
-    std::cin >> cmd;
+    std::getline(std::cin, cmd);
     if(cmd == ""){
         std::cout << "\n";
         waitingForCommand();
@@ -80,18 +80,33 @@ void Terminal::waitingForCommand(){
     }    
 }
 
-void Terminal::executeCommand(std::string cmd){
-    if(cmd == "ls")
+void Terminal::executeCommand(std::string command) {
+    std::vector<std::string> full_command = cmdParse(command);
+
+    if (full_command.empty()) {
+        std::cout << "No command entered.\n";
+        return;
+    }
+
+    std::string cmd = full_command[0];
+    std::string arg = (full_command.size() > 1) ? full_command[1] : "";
+
+    std::cout << "Command: " << cmd << " Arg: " << arg << std::endl;
+
+    if (cmd == "ls") 
         ls();
-    else if(cmd == "clear")
+    else if (cmd == "clear") 
         clear();
-    else if(cmd == "neofetch")
+    
+    else if (cmd == "neofetch") 
         neofetch();
-    else{
+    else {
         std::cout << "Command not found! Type help to see the list of commands.\n";
         waitingForCommand();
     }
+    
 }
+
 
 void Terminal::startup(){
     neofetch();
