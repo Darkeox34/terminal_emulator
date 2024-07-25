@@ -7,6 +7,8 @@
 class file: public baseContent{
 public:
     file(std::string name): baseContent(name){}
+
+    std::string data;
 };
 
 #endif

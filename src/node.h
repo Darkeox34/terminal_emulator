@@ -6,7 +6,7 @@
 
 class node{
 public:
-    baseContent* data;
+    baseContent* content;
     std::vector<node*> linkings;
     node* parent;
 
