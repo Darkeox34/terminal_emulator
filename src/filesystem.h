@@ -21,14 +21,14 @@ public:
         current = root;
     }
 
-    void mkDir(std::string name);
+    void createFolder(std::string _name);
 
     void printFolders();
 };
 
-void filesystem::mkDir(std::string name){
+void filesystem::createFolder(std::string _name){
     node* newNode = new node();
-    newNode->content = new folder(name);
+    newNode->content = new folder(_name);
     newNode->parent = current;
     if(current->linkings[0] != nullptr)
         current->linkings.push_back(newNode);
@@ -37,8 +37,12 @@ void filesystem::mkDir(std::string name){
 }
 
 void filesystem::printFolders(){
-    for(int i = 0; i < current->linkings.size(); i++){
-        std::cout << current->linkings[i]->content->name << std::endl;
+    if(current->linkings[0] == nullptr)
+        return;
+    else{
+        for(int i = 0; i < current->linkings.size(); i++){
+            std::cout << current->linkings[i]->content->name << std::endl;
+        }
     }
 }
 
