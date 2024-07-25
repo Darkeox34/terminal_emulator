@@ -1,6 +1,12 @@
-#include "file.h"
+#ifndef FOLDER_H
+#define FOLDER_H
+
+#include <iostream>
+#include "basecontent.h"
 
 class folder: public baseContent{
 public:
-    folder(string name): baseContent(name){}
+    folder(std::string name): baseContent(name){}
 };
+
+#endif

@@ -1,5 +1,8 @@
-#include "basecontent.h"
+#ifndef NODE_H
+#define NODE_H
+
 #include <vector>
+#include "basecontent.h"
 
 class node{
 public:
@@ -11,3 +14,5 @@ public:
         linkings.push_back(nullptr);
     }
 };
+
+#endif
