@@ -18,9 +18,11 @@ public:
 
     filesystem(std::string name) : name(name){
         root = new node();
-        root->content = new folder("root");
+        root->content = new folder("home");
         current = root;
     }
+
+    std::string getPath();
 
     node* getParent();
 
@@ -43,6 +45,19 @@ void filesystem::createFolder(std::string _name){
 
 node* filesystem::getParent(){
     return current->parent;
+}
+
+std::string filesystem::getPath(){
+    if(current->content->name == "home")
+        return "~";
+    std::string path = "";
+    node* tmp = current;
+    while(tmp->content->name != "home"){
+        path = "/" + tmp->content->name + path;
+        tmp = tmp->parent;
+    }
+    
+    return "/home" + path + "/";
 }
 
 node* filesystem::searchSubFolders(std::string _name){

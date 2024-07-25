@@ -102,7 +102,7 @@ void Terminal::executeCommand(std::string command) {
         ls();
     else if(cmd == "cd"){
         if(arg == ".."){
-            Filesystem->current = Filesystem->current->content->name != "root" ? Filesystem->getParent() : Filesystem->current;
+            Filesystem->current = Filesystem->current->content->name != "home" ? Filesystem->getParent() : Filesystem->current;
             waitingForCommand();
         }
         else
@@ -126,7 +126,7 @@ void Terminal::startup(){
 }
 
 void Terminal::printHostname(){
-    std::cout << hostname << "@terminal:~$ ";
+    std::cout << hostname << "@terminal:"<< Filesystem->getPath() << "$ ";
 }
 
 void Terminal::ls(){
