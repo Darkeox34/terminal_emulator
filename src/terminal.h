@@ -19,8 +19,6 @@ public:
     Terminal(std::string _hostname, filesystem* _Filesystem){
         Filesystem = _Filesystem;
         hostname = _hostname;
-        mkdir("folder1");
-        mkdir("folder2");
         startup();
     }
 
@@ -35,6 +33,8 @@ public:
     void ls();
 
     void clear();
+
+    void cd(std::string directory);
 
     void mkdir(std::string name);
 };
@@ -67,6 +67,14 @@ void Terminal::clear(){
     waitingForCommand();
 }
 
+void Terminal::cd(std::string directory){
+    node* newDir = Filesystem->searchSubFolders(directory);
+    if(newDir != nullptr){
+        Filesystem->current = newDir;
+    }
+    waitingForCommand();
+}
+
 void Terminal::waitingForCommand(){
     printHostname();
     std::string cmd = "";
@@ -87,24 +95,29 @@ void Terminal::executeCommand(std::string command) {
         std::cout << "No command entered.\n";
         return;
     }
-
     std::string cmd = full_command[0];
     std::string arg = (full_command.size() > 1) ? full_command[1] : "";
 
-    std::cout << "Command: " << cmd << " Arg: " << arg << std::endl;
-
     if (cmd == "ls") 
         ls();
+    else if(cmd == "cd"){
+        if(arg == ".."){
+            Filesystem->current = Filesystem->current->content->name != "root" ? Filesystem->getParent() : Filesystem->current;
+            waitingForCommand();
+        }
+        else
+            cd(arg);
+    }
+    else if(cmd == "mkdir")
+        mkdir(arg);
     else if (cmd == "clear") 
         clear();
-    
     else if (cmd == "neofetch") 
         neofetch();
     else {
         std::cout << "Command not found! Type help to see the list of commands.\n";
         waitingForCommand();
     }
-    
 }
 
 
@@ -122,7 +135,7 @@ void Terminal::ls(){
 }
 void Terminal::mkdir(std::string name){
     Filesystem->createFolder(name);
-    //waitingForCommand();
+    waitingForCommand();
 }
 
 
